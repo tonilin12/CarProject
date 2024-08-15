@@ -17,15 +17,14 @@ return new class extends Migration
             $table->string('email')->unique(); // User's email, unique
             $table->timestamp('email_verified_at')->nullable(); // Email verification timestamp
             $table->string('password'); // User's password
-
-            $table->boolean('admin')->default(false); // Admin flag with default value of false
+            $table->boolean('admin')->default(false); // User admin status, default to false
 
             $table->string('phone_number')->nullable(); // User's phone number, nullable
             $table->text('address')->nullable(); // User's address, nullable
+
+            
             $table->rememberToken(); // Token for remembering the user
             $table->timestamps(); // Created_at and updated_at timestamps
-
-            // Optional: You can add additional constraints or indexes if needed
         });
     }
 
