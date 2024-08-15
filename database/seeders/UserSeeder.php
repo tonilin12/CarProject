@@ -28,6 +28,7 @@ class UserSeeder extends Seeder
             'remember_token' => Str::random(10), // Random token
         ]);
         // Create 50 users with random data
-        User::factory(10)->create();
+        $rand = rand(1, 20);
+        User::factory($rand)->create();
     }
 }

@@ -38,3 +38,7 @@ Route::get('/carbooking', function () {
     return view('webpages.carbooking');
 })->name('carbooking');
 require __DIR__.'/auth.php';
+
+Route::get('/reservation/{car_id}', function ($car_id) {
+    return view('webpages.reservation', ['car_id' => $car_id]);
+})->name('reservation');

@@ -1,12 +1,5 @@
 @extends('layouts.layout')
 
-@php
-    use App\Models\Booking;
-    use App\Models\User;
-
-    // Fetch all bookings sorted by car_id
-    $bookings = Booking::orderBy('car_id')->get();
-@endphp
 @section('content')
     <div class="container">
 

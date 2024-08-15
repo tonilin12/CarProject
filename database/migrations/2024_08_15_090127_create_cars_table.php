@@ -15,17 +15,8 @@ return new class extends Migration
             $table->id(); // Az 'id' mező elsődleges kulcs
             $table->string('reg_num')->unique(); // 'reg_num' mező, egyedi
             $table->string('img');
-            $table->date('booking_startdate')->nullable(); // 'booking_startdate' mező, alapértelmezett érték: null
-            $table->date('booking_deadline')->nullable(); // 'booking_deadline' mező, alapértelmezett érték: null
-            $table->timestamps(); // 'created_at' és 'updated_at' mezők automatikusan hozzáadódnak
-
-            $table->unsignedBigInteger('user_id')->nullable(); // 'user_id' mező, kapcsolódik az 'users' táblához, alapértelmezett érték: null
-
-             $table->foreign('user_id')
-                ->references('id')
-                ->on('users')
-                ->onDelete('set null'); // Set to null on delete
-
+            $table->timestamps();
+            
         });
     }
 

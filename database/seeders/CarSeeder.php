@@ -16,22 +16,7 @@ class CarSeeder extends Seeder
     {
         $faker = Faker::create();
         
-        // Get a random 3 users
-        $users = User::inRandomOrder()->limit(3)->get();
-
-        foreach ($users as $user) {
-            $startDate = $faker->dateTimeBetween('now', '+3 months');
-            $endDate = $faker->dateTimeBetween($startDate, (clone $startDate)->modify('+3 months'));
-
-            Car::factory()->create([
-                'user_id' => $user->id,
-                'booking_startdate' => $startDate,
-                'booking_deadline' => $endDate,
-            ]);
-        }
-
-        // Generate a random number of cars between 1 and 5
-        $numberOfCars = rand(1, 5);
+        $numberOfCars = rand(1, 20);
 
         // Generate the cars with or without a user association
         Car::factory($numberOfCars)->create();

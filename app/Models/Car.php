@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo; // Import BelongsTo
+use Illuminate\Database\Eloquent\Relations\HasMany; // Import BelongsTo
 
 
 class Car extends Model
@@ -28,9 +28,9 @@ class Car extends Model
         'img'=>'string'
     ];
 
-    public function user(): BelongsTo
+    public function booking(): HasMany
     {
-        return $this->belongsTo(User::class);
+        return $this->hasMany(Booking::class);
     }
 
 }
