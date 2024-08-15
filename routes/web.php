@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,4 +29,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
+// Route to display all cars
+Route::get('/cars', [CarController::class, 'index'])
+    ->name('cars.index');
+
+Route::get('/carbooking', function () {
+    return view('webpages.carbooking');
+})->name('carbooking');
 require __DIR__.'/auth.php';

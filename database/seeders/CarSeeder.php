@@ -29,5 +29,11 @@ class CarSeeder extends Seeder
                 'booking_deadline' => $endDate,
             ]);
         }
+
+        // Generate a random number of cars between 1 and 5
+        $numberOfCars = rand(1, 5);
+
+        // Generate the cars with or without a user association
+        Car::factory($numberOfCars)->create();
     }
 }

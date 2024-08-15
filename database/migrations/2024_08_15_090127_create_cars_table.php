@@ -14,17 +14,18 @@ return new class extends Migration
         Schema::create('cars', function (Blueprint $table) {
             $table->id(); // Az 'id' mező elsődleges kulcs
             $table->string('reg_num')->unique(); // 'reg_num' mező, egyedi
-            $table->string('brand'); // 'brand' mező
+            $table->string('img');
             $table->date('booking_startdate')->nullable(); // 'booking_startdate' mező, alapértelmezett érték: null
             $table->date('booking_deadline')->nullable(); // 'booking_deadline' mező, alapértelmezett érték: null
-            $table->unsignedBigInteger('user_id'); // 'user_id' mező, kapcsolódik az 'users' táblához
             $table->timestamps(); // 'created_at' és 'updated_at' mezők automatikusan hozzáadódnak
 
-            // Külső kulcs beállítása
-            $table->foreign('user_id')
+            $table->unsignedBigInteger('user_id')->nullable(); // 'user_id' mező, kapcsolódik az 'users' táblához, alapértelmezett érték: null
+
+             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
-                ->onDelete('cascade');
+                ->onDelete('set null'); // Set to null on delete
+
         });
     }
 

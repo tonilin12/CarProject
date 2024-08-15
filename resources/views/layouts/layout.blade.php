@@ -9,6 +9,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet">
@@ -27,7 +28,7 @@
                         <a class="nav-link" href="{{ url('/') }}">Go to Home Page</a>
                     </li>
                     <li class="nav-item">
-                        <a>Book Car</a>
+                        <a class="nav-link" href="{{ route('carbooking') }}">Book Car</a>
                     </li>
                     <li class="nav-item">
                         <a>Admin functions</a>

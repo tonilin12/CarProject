@@ -13,10 +13,19 @@ class Car extends Model
 
     protected $fillable = [
           'reg_num',
-          'brand',
           'booking_startdate',
           'booking_deadline',
-          'user_id'
+          'img',
+          'user_id',
+          'is_booked',
+    ];
+
+    protected $casts = [
+        'booking_startdate' => 'datetime',
+        'booking_deadline' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+        'img'=>'string'
     ];
 
     public function user(): BelongsTo
