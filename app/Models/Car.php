@@ -13,19 +13,17 @@ class Car extends Model
 
     protected $fillable = [
           'reg_num',
-          'booking_startdate',
-          'booking_deadline',
           'img',
+          'daily_price',
           'user_id',
-          'is_booked',
+
     ];
 
     protected $casts = [
-        'booking_startdate' => 'datetime',
-        'booking_deadline' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
-        'img'=>'string'
+        'img'=>'string',
+        'daily_price' => 'integer',
     ];
 
     public function booking(): HasMany

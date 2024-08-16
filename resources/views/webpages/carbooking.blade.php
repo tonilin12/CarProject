@@ -1,44 +1,52 @@
 @extends('layouts.layout')
 
 @php
-    use App\Models\Booking;
-    use App\Models\User;
+use App\Models\Car;
+use Carbon\Carbon;
 
-    // Fetch all bookings sorted by car_id
-    $bookings = Booking::orderBy('car_id')->get();
+// Fetch all cars
+$cars = Car::all();
 @endphp
-@section('content')
-    <div class="container">
 
-        @if ($bookings->isEmpty())
-            <p>No reservations found for this car.</p>
+@section('content')
+    <div class="container mt-5">
+        @if (session()->has('start_date') && session()->has('end_date'))
+            <div class="alert alert-info">
+                <strong>Booking Dates:</strong><br>
+                Start Date: {{ session('start_date') }}<br>
+                End Date: {{ session('end_date') }}
+            </div>
         @else
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Booking ID</th>
-                        <th>User ID</th>
-                        <th>Start Date</th>
-                        <th>Deadline</th>
-                        <th>Car ID</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($bookings as $booking)
-                        @php
-                            // Fetch user data for each booking
-                            $user = User::find($booking->user_id);
-                        @endphp
-                        <tr>
-                            <td>{{ $booking->id }}</td>
-                            <td>{{ $user ? $user->id : 'Unknown' }}</td>
-                            <td>{{ $booking->start_date }}</td>
-                            <td>{{ $booking->deadline }}</td>
-                            <td>{{ $booking->car_id }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            <div class="alert alert-warning">
+                <strong>No booking dates are set.</strong>
+            </div>
+        @endif
+
+        <h1 class="mb-4 text-center">Available Cars</h1>
+        
+        @if ($cars->isEmpty())
+            <div class="alert alert-warning">
+                <strong>No cars are available at the moment.</strong>
+            </div>
+        @else
+            <div class="row">
+                @foreach ($cars as $car)
+                    <div class="col-md-4 mb-4">
+                        <div class="card shadow-sm border-light">
+                            <img src="{{ $car->img }}" alt="{{ $car->reg_num }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                            <div class="card-body">
+                                <h5 class="card-title">Car ID: {{ $car->id }}</h5>
+                                <p class="card-text"><strong>Registration Number:</strong> {{ $car->reg_num }}</p>
+                                <div class="d-flex justify-content-end">
+                                    <a href="{{ route('reservation', ['car_id' => $car->id]) }}" class="btn btn-primary">
+                                        Make Reservation
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         @endif
     </div>
 @endsection

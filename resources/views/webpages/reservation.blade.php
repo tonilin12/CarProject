@@ -1,5 +1,13 @@
 @extends('layouts.layout')
 
+@php
+    use App\Models\Booking;
+    use App\Models\User;
+
+    // Fetch all bookings sorted by car_id
+    $bookings = Booking::orderBy('car_id')->get();
+@endphp
+
 @section('content')
     <div class="container">
 
@@ -21,12 +29,16 @@
                         @php
                             // Fetch user data for each booking
                             $user = User::find($booking->user_id);
+
+                            // Format dates
+                            $startDateFormatted = \Carbon\Carbon::parse($booking->start_date)->format('Y-m-d');
+                            $deadlineFormatted = \Carbon\Carbon::parse($booking->deadline)->format('Y-m-d');
                         @endphp
                         <tr>
                             <td>{{ $booking->id }}</td>
                             <td>{{ $user ? $user->id : 'Unknown' }}</td>
-                            <td>{{ $booking->start_date }}</td>
-                            <td>{{ $booking->deadline }}</td>
+                            <td>{{ $startDateFormatted }}</td>
+                            <td>{{ $deadlineFormatted }}</td>
                             <td>{{ $booking->car_id }}</td>
                         </tr>
                     @endforeach

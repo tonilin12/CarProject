@@ -27,22 +27,18 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/') }}">Go to Home Page</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('carbooking') }}">Book Car</a>
-                    </li>
+              
                     <li class="nav-item">
                         <a>Admin functions</a>
                     </li>   
                 </ul>
+                
             </div>
         </div>
     </nav>
     
     @yield('content')
 
-    <div class="container">
-        <!-- Additional content here -->
-    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>

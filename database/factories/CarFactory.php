@@ -31,6 +31,8 @@ class CarFactory extends Factory
         return [
             'reg_num' => strtoupper($this->faker->unique()->bothify('??-###')), // Example: AB-123
             'img' => $imageUrl, // Store the full URL of the image or null
+            'daily_price' => $this->faker->numberBetween(10, 20) * 1000,
+
         ];
     }
 }

@@ -78,7 +78,7 @@ class BookingSeeder extends Seeder
                     }
                 }
             }
-
+            
             // Create a new booking record
             Booking::create([
                 'user_id' => $users->random()->id,

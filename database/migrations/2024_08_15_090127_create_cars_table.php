@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id(); // Az 'id' mező elsődleges kulcs
             $table->string('reg_num')->unique(); // 'reg_num' mező, egyedi
             $table->string('img');
+            $table->integer('daily_price'); 
             $table->timestamps();
             
         });

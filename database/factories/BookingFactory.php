@@ -18,12 +18,9 @@ class BookingFactory extends Factory
      */
     public function definition(): array
     {
-        $startDate = $this->faker->dateTimeBetween('now', '+6 months');
-        $endDate = $this->faker->dateTimeBetween($startDate, (clone $startDate)->modify('+6 months'));
 
         return [
-            'start_date' => $startDate,
-            'deadline' => $endDate,
+        
         ];
     }
 }
