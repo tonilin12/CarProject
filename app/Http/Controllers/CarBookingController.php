@@ -25,16 +25,16 @@ class CarBookingController extends Controller
      */
     public function store(Request $request)
     {
+       
         // Retrieve start and end dates from the request
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
-        
-
-
-      
-        // Redirect back to the carbooking page with the date range data
-        return redirect()->route('carbooking')
-            ->with('start_date', $startDate)
-            ->with('end_date', $endDate);
+    
+        // Store the dates in the session
+        session(['start_date' => $startDate, 'end_date' => $endDate]);
+    
+        // Redirect back to the carbooking page
+        return redirect()->route('carbooking');
     }
+    
 }

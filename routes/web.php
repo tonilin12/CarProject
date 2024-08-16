@@ -4,6 +4,10 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarBookingController;
 
+use App\Http\Controllers\ReservationController;
+
+use App\Http\Controllers\BookingController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,9 +19,6 @@ use App\Http\Controllers\CarBookingController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -41,6 +42,13 @@ require __DIR__.'/auth.php';
 Route::post('/carbooking', [CarBookingController::class, 'store'])->name('carbooking.store');
 
 
-Route::get('/reservation/{car_id}', function ($car_id) {
-    return view('webpages.reservation', ['car_id' => $car_id]);
-})->name('reservation');
+Route::get('/reservation/{car_id}', [ReservationController::class, 'showReservation'])->name('reservation');
+
+Route::post('/reserve', [ReservationController::class, 'store'])->name('reserve.store');
+
+Route::get('/', function () {
+    return view('welcome'); // Adjust this to the view you want as the homepage
+})->name('home');
+
+
+Route::get('/report/{id}', [BookingController::class, 'show'])->name('report.show');

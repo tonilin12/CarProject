@@ -1,36 +1,73 @@
 @extends('layouts.layout')
 
 @php
-use App\Models\Car;
-use Carbon\Carbon;
+    use App\Models\Car;
+    use App\Models\Booking;
+    use Carbon\Carbon;
 
-// Fetch all cars
-$cars = Car::all();
+    // Fetch all cars
+    $cars = Car::all();
+
+    // Retrieve the start and end dates from the session
+    $startDate = session('start_date');
+    $deadline = session('end_date');
+
+    // Ensure startDate and deadline are valid dates
+    $startDate = Carbon::parse($startDate);
+    $deadline = Carbon::parse($deadline);
+
+    // Retrieve bookings that overlap with the provided date range
+    $overlappingBookings = Booking::where(function ($query) use ($startDate, $deadline) {
+        $query->whereBetween('start_date', [$startDate, $deadline])
+            ->orWhereBetween('end_date', [$startDate, $deadline])
+            ->orWhere(function ($query) use ($startDate, $deadline) {
+                $query->where('start_date', '<=', $startDate)
+                        ->where('end_date', '>=', $deadline);
+            });
+    })->get();
+
+    // Get car IDs for overlapping bookings
+    $overlappingCarIds = $overlappingBookings->pluck('car_id')->toArray();
+
+    // Filter out cars that are booked during the specified date range
+    $availableCars = $cars->filter(function ($car) use ($overlappingCarIds) {
+        return !in_array($car->id, $overlappingCarIds);
+    });
 @endphp
 
 @section('content')
     <div class="container mt-5">
-        @if (session()->has('start_date') && session()->has('end_date'))
-            <div class="alert alert-info">
-                <strong>Booking Dates:</strong><br>
-                Start Date: {{ session('start_date') }}<br>
-                End Date: {{ session('end_date') }}
-            </div>
-        @else
-            <div class="alert alert-warning">
-                <strong>No booking dates are set.</strong>
-            </div>
-        @endif
-
         <h1 class="mb-4 text-center">Available Cars</h1>
-        
+
+        <!-- Print current startDate and deadline -->
+        <div class="alert alert-info">
+            <strong>Start Date:</strong> {{ $startDate->format('Y-m-d') }}<br>
+            <strong>End Date:</strong> {{ $deadline->format('Y-m-d') }}
+        </div>
+
+        <!-- Print all overlapping bookings -->
+        <div class="alert alert-info">
+            <strong>Overlapping Bookings:</strong>
+            @if ($overlappingBookings->isEmpty())
+                <p>No overlapping bookings found.</p>
+            @else
+                <ul>
+                    @foreach ($overlappingBookings as $booking)
+                        <li>
+                            Booking ID: {{ $booking->id }} | Car ID: {{ $booking->car_id }} | Start Date: {{ $booking->start_date->format('Y-m-d') }} | End Date: {{ $booking->deadline->format('Y-m-d') }}
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
+        </div>
+
         @if ($cars->isEmpty())
             <div class="alert alert-warning">
                 <strong>No cars are available at the moment.</strong>
             </div>
         @else
             <div class="row">
-                @foreach ($cars as $car)
+                @foreach ($availableCars as $car)
                     <div class="col-md-4 mb-4">
                         <div class="card shadow-sm border-light">
                             <img src="{{ $car->img }}" alt="{{ $car->reg_num }}" class="card-img-top" style="height: 200px; object-fit: cover;">
@@ -38,7 +75,7 @@ $cars = Car::all();
                                 <h5 class="card-title">Car ID: {{ $car->id }}</h5>
                                 <p class="card-text"><strong>Registration Number:</strong> {{ $car->reg_num }}</p>
                                 <div class="d-flex justify-content-end">
-                                    <a href="{{ route('reservation', ['car_id' => $car->id]) }}" class="btn btn-primary">
+                                    <a href="{{ route('reservation', ['car_id' => $car->id]) }}?start_date={{ $startDate->format('Y-m-d') }}&end_date={{ $deadline->format('Y-m-d') }}" class="btn btn-primary">
                                         Make Reservation
                                     </a>
                                 </div>
