@@ -7,6 +7,8 @@ use App\Http\Controllers\CarBookingController;
 use App\Http\Controllers\ReservationController;
 
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\LoginController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -51,4 +53,16 @@ Route::get('/', function () {
 })->name('home');
 
 
-Route::get('/report/{id}', [BookingController::class, 'show'])->name('report.show');
+Route::get('/report/{id}', [BookingController::class, 'show'])
+    ->name('report.show');
+
+Route::get('/admin/login', function () {
+    return view('webpages.adminfolder.login');
+})->name('admin.login');
+
+Route::post('/login', [LoginController::class, 'login'])
+    ->name('login');
+
+Route::get('/admin-page', function () {
+        return view('webpages.adminfolder.page');
+    })->name('admin.page');

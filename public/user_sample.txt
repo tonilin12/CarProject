@@ -1,0 +1,12 @@
+AdminUser
+admin@example.com
+123 Admin St, Dámin City, AC 12345
+123-456-7890
+adminpassword
+
+
+RegularUser
+user@example.com
+456 User Ave, User City, UC 65432
+987-654-3210
+userpassword
