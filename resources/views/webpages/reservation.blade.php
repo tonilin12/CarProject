@@ -100,7 +100,7 @@
             document.getElementById('days-hidden').value = days;
         }
 
-        // Initialize the total price and end date on page load
+        // Initialize theffffffffff total price and end date on page load
         document.addEventListener('DOMContentLoaded', () => {
             updateTotalPriceAndEndDate();
         });

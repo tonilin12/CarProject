@@ -51,8 +51,9 @@ class ReservationController extends Controller
             'email' => 'required|email',
             'address' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
-            'days' => 'required|integer|min:1',
             'start_date' => 'required|date',
+            'deadline' => 'required|date',
+
         ]);
     
         // Retrieve the car details using car_id
@@ -70,15 +71,13 @@ class ReservationController extends Controller
         $startDate = Carbon::parse($validatedData['start_date']);
     
         // Calculate the endDate by adding the number of days to the startDate
-        $endDate = $startDate->copy()->addDays($validatedData['days']);
-    
+        $endDate = Carbon::parse($validatedData['deadline']);
         // Create the booking
         $booking = Booking::create([
             'car_id' => $car->id,
             'user_id' => $user->id,
             'start_date' => $startDate,
             'deadline' => $endDate,
-            'days' => $validatedData['days'],
         ]);
     
         // Redirect or respond
