@@ -74,6 +74,8 @@
                             <div class="card-body">
                                 <h5 class="card-title">Car ID: {{ $car->id }}</h5>
                                 <p class="card-text"><strong>Registration Number:</strong> {{ $car->reg_num }}</p>
+                                <p class="card-text"><strong>Daily Price:</strong> {{ number_format($car->daily_price, 0) }} HUF</p>
+
                                 <div class="d-flex justify-content-end">
                                     <a href="{{ route('reservation', ['car_id' => $car->id]) }}?start_date={{ $startDate->format('Y-m-d') }}&end_date={{ $deadline->format('Y-m-d') }}" class="btn btn-primary">
                                         Make Reservation
