@@ -6,8 +6,7 @@
 
         <h5 class="card-title">Car ID: {{ $car_id }}</h5>
         <p><strong>Start Date:</strong> {{ $start_date->format('Y-m-d') }}</p>
-        <p><strong>End Date:</strong> {{ $deadline->format('Y-m-d') }}</p>
-
+        <p><strong>End Date:</strong> <span id="end-date">{{ $deadline->format('Y-m-d') }}</span></p>
 
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -29,7 +28,7 @@
                             <!-- Hidden inputs for car_id, start_date, and deadline -->
                             <input type="hidden" name="car_id" value="{{ $car_id }}">
                             <input type="hidden" name="start_date" value="{{ $start_date->format('Y-m-d') }}">
-                            <input type="hidden" name="deadline" value="{{ $deadline->format('Y-m-d') }}">
+                            <input type="hidden" id="deadline" name="deadline" value="{{ $deadline->format('Y-m-d') }}">
                             <input type="hidden" id="days-hidden" name="days" value="1">
 
                             <div class="form-group mb-3">
@@ -54,7 +53,7 @@
 
                             <div class="form-group mb-4">
                                 <label for="days">Number of Days to Book:</label>
-                                <select id="days" class="form-control" required onchange="updateTotalPrice()">
+                                <select id="days" class="form-control" required onchange="updateTotalPriceAndEndDate()">
                                     @for ($i = $maxDays; $i > 0; $i--)
                                         <option value="{{ $i }}">{{ $i }}</option>
                                     @endfor
@@ -73,22 +72,37 @@
         </div>
     </div>
 
-    <!-- Include JavaScript to update the total price -->
+    <!-- Include JavaScript to update the total price and end date -->
     <script>
         // Assume dailyPrice is provided as a Blade variable
         const dailyPrice = {{ $car->daily_price }};
+        const startDate = new Date('{{ $start_date->format('Y-m-d') }}'); // Convert to JavaScript Date
 
-        function updateTotalPrice() {
+        function updateTotalPriceAndEndDate() {
             const days = parseInt(document.getElementById('days').value, 10);
-            const totalPrice = dailyPrice * days;
 
+            // Calculate the total price
+            const totalPrice = dailyPrice * days;
             document.getElementById('total-price').innerText = totalPrice.toFixed(2);
+
+            // Calculate the new end date
+            const endDate = new Date(startDate);
+            endDate.setDate(endDate.getDate() + days - 1); // Subtract 1 to get the correct end date
+
+            // Format the date as YYYY-MM-DD
+            const formattedEndDate = endDate.toISOString().split('T')[0];
+
+            // Update the hidden deadline input and the displayed end date
+            document.getElementById('deadline').value = formattedEndDate;
+            document.getElementById('end-date').innerText = formattedEndDate;
+
+            // Update hidden days input
             document.getElementById('days-hidden').value = days;
         }
 
-        // Initialize the total price on page load
+        // Initialize the total price and end date on page load
         document.addEventListener('DOMContentLoaded', () => {
-            updateTotalPrice();
+            updateTotalPriceAndEndDate();
         });
     </script>
 @endsection
