@@ -16,6 +16,8 @@ class Car extends Model
           'img',
           'daily_price',
           'user_id',
+          'is_active',
+
 
     ];
 
@@ -24,11 +26,25 @@ class Car extends Model
         'updated_at' => 'datetime',
         'img'=>'string',
         'daily_price' => 'integer',
+        'is_active'=>'boolean',
     ];
 
-    public function booking(): HasMany
+    public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function ($car) {
+            // Check if the car's status has been changed to inactive
+            if ($car->isDirty('is_active') && !$car->is_active) {
+                // Delete related bookings
+                $car->bookings()->delete();
+            }
+        });
     }
 
 }

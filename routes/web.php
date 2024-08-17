@@ -8,6 +8,7 @@ use App\Http\Controllers\ReservationController;
 
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\LoginController;
+use App\Models\Car;
 
 
 /*
@@ -53,6 +54,8 @@ Route::get('/', function () {
 })->name('home');
 
 
+
+
 Route::get('/report/{id}', [BookingController::class, 'show'])
     ->name('report.show');
 
@@ -64,15 +67,29 @@ Route::post('/login', [LoginController::class, 'login'])
     ->name('login');
 
 
-    
+
 Route::get('/admin-page', function () {
         return view('webpages.adminfolder.page');
-    })->name('admin.page');
+})->name('admin.page');
 
-    Route::get('/admin/bookings', function () {
+ Route::get('/admin/bookings', function () {
         // Fetch all bookings with related users and cars, sorted by car_id
         $bookings = \App\Models\Booking::with(['user', 'car'])->orderBy('car_id')->get();
     
         // Return the view with the bookings data
         return view('webpages.adminfolder.bookings', compact('bookings'));
-    })->name('admin.bookings');
+})->name('admin.bookings');
+
+Route::get('/edit-cars', function () {
+        return view('webpages.adminfolder.editcars');
+})->name('edit-cars');
+
+
+Route::post('/cars/{car}/change-status', function (Car $car, Request $request) {
+    // Toggle the is_active status
+    $car->is_active = !$car->is_active;
+    $car->save();
+
+    // Redirect back to the edit cars page with a success message
+    return redirect()->route('edit-cars')->with('status', 'Car status updated successfully!');
+})->name('cars.changeStatus');

@@ -31,7 +31,7 @@
 
     // Filter out cars that are booked during the specified date range
     $availableCars = $cars->filter(function ($car) use ($overlappingCarIds) {
-        return !in_array($car->id, $overlappingCarIds);
+        return $car->is_active && !in_array($car->id, $overlappingCarIds);
     });
 @endphp
 

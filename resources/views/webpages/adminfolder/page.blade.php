@@ -19,7 +19,7 @@
     <!-- Navigation Links -->
     <div class="d-flex justify-content-center mb-5">
         <a class="btn btn-lg btn-primary mx-2" href="{{ route('admin.bookings') }}">List Bookings</a>
+        <a class="btn btn-lg btn-secondary mx-2" href="{{ route('edit-cars') }}">Edit Cars</a>
 
-        <a class="btn btn-lg btn-secondary mx-2" href="{{ route('home') }}">Edit Cars</a>
     </div>
 @endsection

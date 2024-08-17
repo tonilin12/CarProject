@@ -24,10 +24,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
+              
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/') }}">Home</a>
-                    </li>
-                    <li class="nav-item">
+
                         @guest
                             <a class="nav-link" href="{{ route('admin.login') }}">Admin Login</a>
                         @else

@@ -12,12 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('cars', function (Blueprint $table) {
-            $table->id(); // Az 'id' mező elsődleges kulcs
-            $table->string('reg_num')->unique(); // 'reg_num' mező, egyedi
-            $table->string('img');
-            $table->integer('daily_price'); 
+            $table->id(); // Primary key
+            $table->string('reg_num')->unique(); // Unique registration number
+            $table->string('img'); // Image URL
+            $table->integer('daily_price'); // Daily rental price
+            $table->boolean('is_active')->default(true); // Status flag
+
             $table->timestamps();
-            
         });
     }
 
@@ -26,11 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('cars', function (Blueprint $table) {
-            // Külső kulcs eltávolítása a tábla törlése előtt
-            $table->dropForeign(['user_id']);
-        });
-        
         Schema::dropIfExists('cars');
     }
 };
