@@ -63,6 +63,16 @@ Route::get('/admin/login', function () {
 Route::post('/login', [LoginController::class, 'login'])
     ->name('login');
 
+
+    
 Route::get('/admin-page', function () {
         return view('webpages.adminfolder.page');
     })->name('admin.page');
+
+    Route::get('/admin/bookings', function () {
+        // Fetch all bookings with related users and cars, sorted by car_id
+        $bookings = \App\Models\Booking::with(['user', 'car'])->orderBy('car_id')->get();
+    
+        // Return the view with the bookings data
+        return view('webpages.adminfolder.bookings', compact('bookings'));
+    })->name('admin.bookings');
