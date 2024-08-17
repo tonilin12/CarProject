@@ -93,3 +93,12 @@ Route::post('/cars/{car}/change-status', function (Car $car, Request $request) {
     // Redirect back to the edit cars page with a success message
     return redirect()->route('edit-cars')->with('status', 'Car status updated successfully!');
 })->name('cars.changeStatus');
+
+
+Route::post('/car/store', function () {
+    // Create a new car using a factory
+    Car::factory()->create();
+
+    // Redirect back to the previous page
+    return redirect()->back();
+})->name('car.store');

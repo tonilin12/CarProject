@@ -12,6 +12,16 @@
 @section('content')
     <div class="container mt-5">
         <h1 class="mb-4 text-center">Edit Cars</h1>
+        <br><br>
+        <div class="d-flex justify-content-center mb-4">
+            <form action="{{ route('car.store') }}" method="POST">
+                @csrf
+                <button type="submit" class="btn" style="background-color: #cc5500; border-color: #cc5500; color: white; padding: 15px 30px; font-size: 18px; min-width: 200px;">
+                    Add New Car
+                </button>
+            </form>
+        </div>
+        <br><br>
 
         <div class="row">
             @foreach ($cars as $car)
