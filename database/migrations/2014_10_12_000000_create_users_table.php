@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id(); // Auto-incrementing primary key
-            $table->string('name'); // User's name
+            $table->string('name')->unique();; // User's name
             $table->string('email')->unique(); // User's email, unique
             $table->timestamp('email_verified_at')->nullable(); // Email verification timestamp
             $table->string('password'); // User's password

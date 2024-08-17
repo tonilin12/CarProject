@@ -12,9 +12,16 @@ use Illuminate\Support\Str;
 class UserFactory extends Factory
 {
     /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = \App\Models\User::class;
+
+    /**
      * The current password being used by the factory.
      */
-    protected static ?string $password;
+    protected static ?string $password = null;
 
     /**
      * Define the model's default state.
@@ -24,12 +31,14 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'admin'=>fake()->boolean(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
+            'name' => $this->faker->unique()->name(), // Unique name
+            'email' => $this->faker->unique()->safeEmail(), // Unique email
+            'admin' => $this->faker->boolean(), // Random boolean for admin
+            'email_verified_at' => now(), // Automatically set email verified timestamp
+            'password' => static::$password ??= Hash::make('password'), // Default password
+            'remember_token' => Str::random(10), // Random remember token
+            'phone_number' => $this->faker->phoneNumber(), // Fake phone number
+            'address' => $this->faker->address(), // Fake address
         ];
     }
 
