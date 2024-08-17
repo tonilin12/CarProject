@@ -18,7 +18,8 @@
                 </ul>
             </div>
         @endif
-                <div class="row justify-content-center">
+
+        <div class="row justify-content-center">
             <div class="col-md-8 col-lg-6">
                 <div class="card shadow-sm border-light">
                     <div class="card-body p-4">
@@ -29,6 +30,7 @@
                             <input type="hidden" name="car_id" value="{{ $car_id }}">
                             <input type="hidden" name="start_date" value="{{ $start_date->format('Y-m-d') }}">
                             <input type="hidden" name="deadline" value="{{ $deadline->format('Y-m-d') }}">
+                            <input type="hidden" id="days-hidden" name="days" value="1">
 
                             <div class="form-group mb-3">
                                 <label for="name">Name:</label>
@@ -52,8 +54,8 @@
 
                             <div class="form-group mb-4">
                                 <label for="days">Number of Days to Book:</label>
-                                <select id="days" name="days" class="form-control" required onchange="updateTotalPrice()">
-                                    @for ($i = 1; $i <= $maxDays; $i++)
+                                <select id="days" class="form-control" required onchange="updateTotalPrice()">
+                                    @for ($i = $maxDays; $i > 0; $i--)
                                         <option value="{{ $i }}">{{ $i }}</option>
                                     @endfor
                                 </select>
@@ -79,7 +81,9 @@
         function updateTotalPrice() {
             const days = parseInt(document.getElementById('days').value, 10);
             const totalPrice = dailyPrice * days;
+
             document.getElementById('total-price').innerText = totalPrice.toFixed(2);
+            document.getElementById('days-hidden').value = days;
         }
 
         // Initialize the total price on page load

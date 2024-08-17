@@ -53,7 +53,6 @@ class ReservationController extends Controller
             'phone' => 'required|string|max:20',
             'days' => 'required|integer|min:1',
             'start_date' => 'required|date',
-            'deadline' => 'required|date',
         ]);
     
         // Retrieve the car details using car_id
@@ -67,11 +66,13 @@ class ReservationController extends Controller
             return redirect()->back()->withErrors(['email' => 'User not found']);
         }
     
-        // Store start_date and end_date in variables
+        // Store start_date in a variable
         $startDate = Carbon::parse($validatedData['start_date']);
-        $endDate = Carbon::parse($validatedData['deadline']);
-        
-
+    
+        // Calculate the endDate by adding the number of days to the startDate
+        $endDate = $startDate->copy()->addDays($validatedData['days']);
+    
+        // Create the booking
         $booking = Booking::create([
             'car_id' => $car->id,
             'user_id' => $user->id,
@@ -79,11 +80,9 @@ class ReservationController extends Controller
             'deadline' => $endDate,
             'days' => $validatedData['days'],
         ]);
-        // Additional logic for storing reservation can be added here
     
         // Redirect or respond
         return redirect()->route('report.show', ['id' => $booking->id]);
-
     }
     
 
