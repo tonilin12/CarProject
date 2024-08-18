@@ -28,10 +28,10 @@ class BookingSeeder extends Seeder
 
         // Instantiate Faker
         $faker = Faker::create();
-        $existingBookings = Booking::all()->groupBy('car_id');
 
         // Create 20 booking records
         foreach (range(1, 20) as $index) {
+            $existingBookings = Booking::all()->groupBy('car_id');
 
             // Randomly select a car
             $car = $cars->random();
