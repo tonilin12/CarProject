@@ -31,14 +31,17 @@ class BookingSeeder extends Seeder
 
         // Create 20 booking records
         foreach (range(1, 20) as $index) {
-            $existingBookings = Booking::all()->groupBy('car_id');
 
             // Randomly select a car
             $car = $cars->random();
 
-            // Get sorted bookings for the selected car
-            $sortedBookings = $existingBookings->get($car->id, collect())->sortBy('start_date');
-            
+            $car = $cars->random();
+
+            // Fetch bookings only for the selected car and sort them by start_date
+            $sortedBookings = Booking::where('car_id', $car->id)
+                ->orderBy('start_date')
+                ->get();            
+                
             $startDate = null;
             $deadline = null;
             
