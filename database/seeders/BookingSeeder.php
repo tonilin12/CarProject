@@ -35,7 +35,6 @@ class BookingSeeder extends Seeder
             // Randomly select a car
             $car = $cars->random();
 
-            $car = $cars->random();
 
             // Fetch bookings only for the selected car and sort them by start_date
             $sortedBookings = Booking::where('car_id', $car->id)
